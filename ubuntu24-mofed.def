@@ -1,0 +1,87 @@
+BootStrap: debootstrap
+OSVersion: noble
+MirrorURL: http://linux.mirrors.es.net/ubuntu/
+
+%post
+    # Dependencies
+    apt-get -y install linux-source \
+    linux-modules-extra-{{KERNEL_VER}} \
+    libnl-route-3-200 \
+    libnl-route-3-dev \
+    libnl-3-dev \
+    lsb-base \
+    libnl-3-200 \
+    swig
+
+    # Mellanox OFED for the specific kernel
+    cd /tmp
+    cat > ofed.conf << EOF
+ofed-scripts=y
+mlnx-ofed-kernel-utils=y
+mlnx-ofed-kernel-modules=y
+iser-modules=n
+isert-modules=n
+srp-modules=n
+libibverbs1=y
+ibverbs-utils=y
+libibverbs-dev=y
+libibverbs1-dbg=n
+libmlx4-1=y
+libmlx4-dev=y
+libmlx4-1-dbg=n
+libmlx5-1=y
+libmlx5-dev=y
+libmlx5-1-dbg=n
+librxe-1=y
+librxe-dev=y
+librxe-1-dbg=n
+libibumad=y
+libibumad-static=y
+libibumad-devel=y
+ibacm=y
+ibacm-dev=y
+librdmacm1=y
+librdmacm-utils=y
+librdmacm-dev=y
+mstflint=y
+ibdump=y
+libibmad=y
+libibmad-static=y
+libibmad-devel=y
+libopensm=y
+opensm=y
+opensm-doc=n
+libopensm-devel=y
+infiniband-diags=y
+infiniband-diags-compat=y
+mft=y
+kernel-mft-modules=y
+libibcm1=y
+libibcm-dev=y
+perftest=y
+ibutils2=y
+libibdm1=y
+ibutils=y
+cc-mgr=n
+ar-mgr=n
+dump-pr=n
+ibsim=y
+ibsim-doc=n
+knem-modules=n
+mxm=n
+ucx=n
+sharp=n
+hcoll=n
+openmpi=n
+mpitests=n
+libdapl2=n
+dapl2-utils=n
+libdapl-dev=n
+srptools=n
+mlnx-ethtool=n
+EOF
+    wget -c http://www.mellanox.com/downloads/ofed/MLNX_OFED-{{MOFED_VER}}/MLNX_OFED_LINUX-{{MOFED_VER}}-{{DISTRO_MAJOR}}{{OSVERSION}}-{{KERNEL_ARCH}}.tgz
+    tar vxzf MLNX_OFED_LINUX-{{MOFED_VER}}-{{DISTRO_MAJOR}}{{OSVERSION}}-{{KERNEL_ARCH}}.tgz
+    cd MLNX_OFED_LINUX-{{MOFED_VER}}-{{DISTRO_MAJOR}}{{OSVERSION}}-{{KERNEL_ARCH}}
+    ./mlnxofedinstall --kernel {{KERNEL_VER}} --add-kernel-support --without-fw-update --config /tmp/ofed.conf --force
+    rm -rf /tmp/MLNX*

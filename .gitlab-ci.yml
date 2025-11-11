@@ -1,0 +1,23 @@
+stages: [build]
+
+variables: 
+  GIT_STRATEGY: fetch
+  GITLAB_MAX_BRANCH_PIPELINES: 1
+
+k8s:
+  stage: build
+  tags: [docker]
+  image:
+    name: ubuntu:24.04
+    entrypoint: [""]
+  script:
+    - apt -y update
+    - apt -y install debootstrap git-all make sudo
+    - apt -y install software-properties-common
+    - add-apt-repository -y ppa:apptainer/ppa
+    - apt update
+    - apt -y install apptainer
+    - make TAG=k8s k8s
+  artifacts:
+    paths:
+      - "${CI_PROJECT_DIR}/jobs_scratch_dir"

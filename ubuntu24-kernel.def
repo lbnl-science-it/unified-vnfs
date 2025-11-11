@@ -1,0 +1,10 @@
+BootStrap: debootstrap
+OSVersion: noble
+MirrorURL: http://linux.mirrors.es.net/ubuntu/
+
+%post
+    apt-get -y install \
+            dkms \
+            linux-firmware \
+            linux-headers-{{KERNEL_VER}} \
+            linux-image-{{KERNEL_VER}}

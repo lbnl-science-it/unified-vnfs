@@ -1,0 +1,9 @@
+BootStrap: debootstrap
+OSVersion: noble
+MirrorURL: http://linux.mirrors.es.net/ubuntu/
+
+%post
+wget -q -O- 'https://download.ceph.com/keys/release.asc' | sudo apt-key add -
+sudo apt-add-repository 'deb https://download.ceph.com/debian-20.1.0/ {{OSVERSIONNAME}} main'
+apt-get update
+apt -y install ceph-common

@@ -1,0 +1,23 @@
+# ubuntu-vnfs-24.04LTS
+
+
+
+## Getting started
+
+Setup simply requires a machine with Make and Apptainer installed.
+
+VNFS nomenclature is as follows:
+
+    uvnfs-$TAG-$GITVERSION
+
+
+The TAG is typically the specified target, but it can be overriden by using
+the TAG= syntax as seen below:
+
+    $ make TAG=lrc-compute lrc
+
+note: This is especially useful when using other targets.
+
+Sometimes version locking packages is quite important - this can be
+accomplished by establishing a variable in the env-vars file and using it in
+a .def.

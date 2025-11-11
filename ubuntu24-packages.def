@@ -1,0 +1,53 @@
+BootStrap: debootstrap
+OSVersion: noble
+MirrorURL: http://linux.mirrors.es.net/ubuntu/
+
+%post
+    apt-get -y install \
+            autoconf \
+            automake \
+            bc \
+            debhelper \
+            binutils \
+            binutils-dev \
+            bison \
+            build-essential \
+            bzip2 \
+            dmidecode \
+            e2fsprogs \
+            emacs \
+            environment-modules \
+            flex \
+            gcc \
+            g++ \
+            gfortran \
+            git \
+            graphviz \
+            ipmitool \
+            joe \
+            lftp \
+            libhwloc-dev \
+            libltdl-dev \
+            libcgroup-dev \
+            libpam0g \
+            libpam0g-dev \
+            libpam-cgroup \
+            libnfs-utils \
+            libnuma-dev \
+            make \
+            manpages \
+            mdadm \
+            numactl \
+            parted \
+            pkg-config \
+            qemu-guest-agent \
+            screen \
+            subversion \
+            sudo \
+            sysstat \
+            tcl \
+            telnet \
+            tk \
+            tmux \
+            vim \
+            zlib1g-dev

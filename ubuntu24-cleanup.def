@@ -1,0 +1,10 @@
+BootStrap: debootstrap
+OSVersion: noble
+MirrorURL: http://linux.mirrors.es.net/ubuntu/
+
+%post
+    rm -rf /usr/lib/.build-id
+    rm -rf /environment /apptainer /.coredone /.exec /.run /.shell /.apptainer.d /.test
+    find /var/log -maxdepth 1 -type f |  xargs rm -f
+    apt clean cache
+    ls /boot/vmlinuz*

@@ -1,0 +1,69 @@
+BootStrap: debootstrap
+OSVersion: noble
+MirrorURL: http://linux.mirrors.es.net/ubuntu/
+
+
+%files
+    stubs/etc/passwd /etc
+    stubs/etc/group /etc
+    stubs/part_disks.sh /usr/bin/part_disks.sh
+
+%post
+    apt-get -y install \
+            software-properties-common
+    add-apt-repository 'deb http://linux.mirrors.es.net/ubuntu noble main restricted universe'
+    add-apt-repository 'deb http://linux.mirrors.es.net/ubuntu noble-security main restricted universe'
+    add-apt-repository 'deb http://linux.mirrors.es.net/ubuntu noble-updates main restricted universe'
+    apt-get update
+    apt-get -y install \
+            apt-utils \
+            cron \
+            curl \
+            e2fsprogs \
+            ethtool \
+            hwloc \
+            ifupdown \
+            iproute2 \
+            iputils-ping \
+            iputils-tracepath \
+            irqbalance \
+            less \
+            locales \
+            lsb-release \
+            lsof \
+            lvm2 \
+            net-tools \
+            netplan.io \
+            nfs-common \
+            numactl \
+            parted \
+            pciutils \
+            psmisc \
+            rdate \
+            rsync \
+            rsyslog \
+            ssh \
+            strace \
+            vim-tiny \
+            wget2 \
+            xfsprogs
+
+    export TZ="America/Los_Angeles"
+    ln -snf /usr/share/zoneinfo/$TZ /etc/localtime
+    echo $TZ > /etc/timezone
+
+    # Root ssh
+    mkdir -p /root/.ssh
+    chown root:root /root/.ssh
+    chmod 700 /root/.ssh
+
+    # Mount points
+    mkdir -p /clusterfs /mnt/weka
+
+    # Fix /sbin/init
+    #rm -f /sbin/init
+    #ln -s ../lib/systemd/systemd /sbin/init
+
+    # Locales
+    locale-gen en_US.UTF-8
+

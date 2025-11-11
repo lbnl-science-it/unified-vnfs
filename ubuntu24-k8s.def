@@ -1,0 +1,22 @@
+BootStrap: debootstrap
+OSVersion: noble
+MirrorURL: http://linux.mirrors.es.net/ubuntu/
+
+%files
+stubs/weka-init.sh /usr/bin/weka-init.sh
+stubs/weka-init.service /etc/systemd/system/weka-init.service
+
+%post
+apt -y install podman \
+  perl \
+  libelf-dev
+
+curl -sfL https://get.rke2.io | INSTALL_RKE2_TYPE="agent" INSTALL_RKE2_METHOD="tar" INSTALL_RKE2_VERSION=v{{RKE2_VER}} INSTALL_RKE2_SKIP_RELOAD=yes sh -
+
+systemctl enable rke2-agent.service
+
+curl https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 | bash
+
+chmod +x /usr/bin/weka-init.sh
+systemctl enable weka-init.service
+echo "export PATH=$PATH:/var/lib/rancher/rke2/bin" >> /root/.bashrc
