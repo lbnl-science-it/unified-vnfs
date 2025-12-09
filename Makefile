@@ -37,8 +37,12 @@ APPTAINER_BUILD	:= sudo apptainer build --build-arg-file=env-vars --warn-unused-
 all:
 	@ echo "Select a make target: generic, mofed, mofed-cuda, mofed-cuda-lustre, mofed-lustre"
 
+# Products
 k8s: base overlay-packages overlay-k8s overlay-mofed overlay-ceph cleanup
+generic: base overlay-packages cleanup
+node: base overlay-packages overlay-mofed overlay-ceph cleanup
 
+# Layers
 base:
 	${APPTAINER_BUILD} --force -s $(CHROOTDIR) $(VNFSNAME)-base.def
 
